@@ -43,24 +43,24 @@ def linux_remote(ip):
                      Press 4 : To check ip address
                      Press 5 : To exit from Prog
                      """)
-    ch = input("Enter what  u want to do : ")
+    ch = int(input("Enter what  u want to do : "))
 
-    if int(ch) == 1:
+    if ch == 1:
         os.system("ssh  {} date".format(ip))
         input()
-    elif int(ch) == 2:
+    elif ch == 2:
         os.system("ssh {} cal".format(ip))
         input()
 
-    elif int(ch) == 3:
+    elif ch == 3:
         os.system("ssh {} free -m".format(ip))
         input()
 
-    elif int(ch) == 4:
+    elif ch == 4:
         os.system("ssh {} ifconfig enp0s3".format(ip))
         input()
 
-    elif int(ch) == 5:
+    elif ch == 5:
         input()
 
     else:
