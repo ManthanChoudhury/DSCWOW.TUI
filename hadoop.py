@@ -106,10 +106,10 @@ while True:
 	choice = int(input('Enter choice: '))
 	os.system('tput setaf 7')
 	if choice == 1:
-		configure_namenode_hadoop(2)
+		configure_namenode_hadoop(1)
 	elif choice == 2:
 		ips = list(input('Enter IPs of Datanodes separated by space : ').split(" "))
-		configure_datanodes_hadoop(2, ips)
+		configure_datanodes_hadoop(1, ips)
 	elif choice == 3:
 		ips = list(input('Enter IPs of Datanodes separated by space : ').split(" "))
 		configure_cluster(ips)
