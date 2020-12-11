@@ -9,7 +9,8 @@ if out[0] == 1:
                         sb.call("echo 'Successfully installed git...'", shell=True)
 
 
-sb.call("rm -rf /root/Automa", shell=True)
+sb.call("rm -rf /home/ec2-user/DSCWOW.TUI/", shell=True)
+print("Cloning..")
 sb.call("git clone https://github.com/Prateek937/DSCWOW.TUI.git",shell=True)
 """if out[0] == 0:
         sb.call("echo 'repository cloned successfully...", shell=True)
