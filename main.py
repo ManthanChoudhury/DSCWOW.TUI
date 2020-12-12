@@ -2,79 +2,61 @@ import os
 import linux
 import docker
 import aws
+import hadoop
+import apache_web
 
 
-
-os.system("tput setaf 4")
-print("--------------------------------------------------------------------")
-os.system("tput setaf 3")
-print("\t\t\tWelcome to World Automation")
-os.system("tput setaf 4")
-print("--------------------------------------------------------------------")
-
-os.system("tput setaf 1")
-
+os.system("tput setaf 6")
+os.system("clear")
 operating_sys = input("Where u want to run prog ? (local/Remote) : ")
-print(operating_sys)
+ip = input("Enter remote IP : ")
+print("{}:{}".format(operating_sys, ip))
+
 
 while True:
-    os.system("clear")
-    os.system("tput setaf 2")
+    os.system('tput setaf 5')
     print("""
-    Press 1 : To deal  with linux 
-    Press 2 : To deal with Docker 
-    Press 3 : To deal with Hadoop
-    Press 4 : To deal with AWS(Cloud)
-    Press 5 : To exit from Prog
-    """)
+        Main Menu:
+        -----------------------------------------------------
+            1. Linux
+            2. Docker
+            3. Hadoop
+            4. AWS Cloud
+            5. Apache httpd Server
+            6. Exit 
+        -----------------------------------------------------   
+        """)
+    os.system("tput setaf 2")
+    choice  = ""
+    while choice == "":
+        choice = input("Enter choice : ")
+    
+    choice = int(choice)
 
-    choice = int(input("Enter your Choice : "))
-    print(choice)
-
-    if operating_sys == "local":
+    if operating_sys == "remote":
         if choice == 1:
             os.system("clear")
             linux.linux()
 
         elif choice == 2:
             os.system("clear")
-            docker.docker()
+            docker.docker(operating_sys, ip)
 
         elif choice == 3:
             os.system("clear")
+            hadoop.hadoop()
 
         elif choice == 4:
             os.system("clear")
-            aws.aws()
+            aws.aws(operating_sys, ip)
 
         elif choice == 5:
             os.system("clear")
+            apache_web.webserver(operating_sys, ip)
+
+        elif choice == 6:
             exit()
 
         else:
-            print("Not Supported")
-
-    elif operating_sys == "remote":
-        ip = input("Enter remote ip :")
-        print(ip)
-        if choice == 1:
-            os.system("clear")
-            linux.linux_remote(ip)
-
-        elif choice == 2:
-            os.system("clear")
-            docker.docker_remote(ip)
-
-        elif choice == 3:
-            os.system("clear")
-
-        elif choice == 4:
-            os.system("clear")
-            print("aws not for remote beacuse we are working remotly")
-
-        elif choice == 5:
-            os.system("clear")
-            exit()
-
-        else:
-            print("Not Supported")
+            os.system("tput setaf 1")
+            print("Invalid Input! ")

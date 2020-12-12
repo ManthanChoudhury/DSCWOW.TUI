@@ -60,6 +60,9 @@ def configure_namenode_hadoop(Type):
 	else:
 		os.system('tput setaf 1') 
 		print('Something went Wrong while formatting !')
+		print('Trying again..')
+		sb.getstatusoutput("echo 'Y' | hadoop namenode -format")
+		sb.call("echo 'Namenode successfully fomatted !'", shell=True)
 	sleep(1)
 	os.system('tput setaf 3')
 	sb.call("echo 'Starting Namenode...'", shell=True)
@@ -91,25 +94,38 @@ def configure_cluster(ips):
 	configure_namenode_hadoop(1)
 	configure_datanodes_hadoop(1,ips)
 	sb.call("hadoop dfsadmin -report", shell=True)
-while True:
-	os.system('tput setaf 10')
-	print("""
-		Features:
-		-----------------------------------------------------
-			Hadoop:
-		-----------------------------------------------------	
-			1. Configure Hadoop Namenode
-			2. Configure Hadoop Datanode
-			3. Configure the Whole Cluster
-		-----------------------------------------------------
-		""")
-	choice = int(input('Enter choice: '))
-	os.system('tput setaf 7')
-	if choice == 1:
-		configure_namenode_hadoop(1)
-	elif choice == 2:
-		ips = list(input('Enter IPs of Datanodes separated by space : ').split(" "))
-		configure_datanodes_hadoop(1, ips)
-	elif choice == 3:
-		ips = list(input('Enter IPs of Datanodes separated by space : ').split(" "))
-		configure_cluster(ips)
+
+def hadoop():
+	while True:
+		os.system('tput setaf 10')
+		print("""
+			-----------------------------------------------------
+				Hadoop:
+			-----------------------------------------------------	
+				1. Configure Hadoop Namenode
+				2. Configure Hadoop Datanode
+				3. Configure the Whole Cluster
+				4. Main Menu
+			-----------------------------------------------------
+			""")
+		os.system("tput setaf 2")
+		ch  = ""
+		while ch == "":
+			ch = input("Enter choice : ")
+		ch = int(ch)
+		
+		os.system('tput setaf 7')
+		if ch == 1:
+			configure_namenode_hadoop(1)
+		elif ch == 2:
+			ips = list(input('Enter IPs of Datanodes separated by space : ').split(" "))
+			configure_datanodes_hadoop(1, ips)
+		elif ch == 3:
+			ips = list(input('Enter IPs of Datanodes separated by space : ').split(" "))
+			configure_cluster(ips)
+		elif ch == 4:
+			os.system("clear")
+			break
+		else:
+			os.system("tput setaf 1")
+			print("Invalid Input!")

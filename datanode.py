@@ -53,7 +53,7 @@ def configure_datanode(ip):
 	if out[0] == 0:
 		print("Successfully started Datanode...")
 	else:
-		#os.system('tput setaf 1')
+		os.system('tput setaf 1')
 		print('Something went Wrong !')
 		print(out[1])
 

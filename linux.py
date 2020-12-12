@@ -3,8 +3,8 @@ import os
 
 
 def linux():
-    chh = 0
-    while chh != 5:
+    ch = 0
+    while ch != 5:
         print("""
                      Press 1 : To run date
                      Press 2 : To run calendar

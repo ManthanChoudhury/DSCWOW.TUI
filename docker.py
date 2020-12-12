@@ -1,149 +1,171 @@
 import os
+from time import sleep
+import subprocess as sb 
+
+def docker_install(T):
+    output = sb.getstatusoutput('rpm -q docker-ce')
+    if output[0] == 1:
+        if 'not installed' in output[1]:
+            sleep(1)
+            os.system('tput setaf 3')
+            sb.call("echo 'Fetching Repository...'", shell=True)
+
+            sb.call("echo 'y' | cp /home/fedora/DSCWOW.TUI/dockercw123.repo /etc/yum.repos.d/", shell=True)
+            sleep(1)
+            sb.call("echo 'Downloading docker-ce, please wait ...'", shell=True)
+            sb.call('yum install docker-ce --nobest -y', shell=True)
+
+            sb.call("echo 'Installing docker-ce...'", shell=True)
+            sleep(1)
+            sb.call("echo 'Enabling container services...'", shell=True)
+            
+            sb.getstatusoutput("systemctl enable docker")
+            sb.getstatusoutput("systemctl start docker")
+        
+            
+            os.system('tput setaf 2')
+            print('Docker-ce successfully Installed and Starded !')
+                    
+    else:
+        sleep(1)
+        os.system('tput setaf 6')
+        print('Docker-ce already installed !\n Starting container Services..')
+        sb.getstatusoutput("systemctl start docker")
+        print('Service stated successfully! ')
+
+def status(T, ip):
+    os.system('tput setaf 3')
+    if T == 'local':
+        sb.call("systemctl status docker", shell = True)
+    else:
+        os.system('ssh root@{} systemctl status docker'.format(ip))
+def pull_docker_images(T, ip, img_name):
+    os.system('tput setaf 3')
+    if T == 'local':
+        sb.call("docker pull {}".format(img_name), shell=True)
+    else:
+        os.system("ssh {} docker pull {}".format(ip, img_name))
+
+def show_docker_images(T, ip):
+    os.system('tput setaf 3')
+    if T == 'local':
+        sb.call("docker images", shell=True)
+    else:
+        os.system("ssh {} docker images".format(ip))
+
+def display_all_containers(T, ip):
+    os.system('tput setaf 3')
+    if  T == 'local':
+        sb.call("docker ps -a", shell=True)
+    else:
+        os.system("ssh {} docker ps -a".format(ip))
+
+def run_docker_container(T,ip, os_name,version, title):
+    os.system('tput setaf 3')
+    if T == 'local':
+        sb.call("docker run -it --name {} {}:{}".format(title, os_name, version), shell=True)
+    else:
+        os.system("ssh -t {} docker run -it --name {} {}".format(ip, title, os_name))
+
+def run_detached_container(T,os_name, version, title):
+    os.system('tput setaf 3')
+    sb.call("docker run -dit --name {} {}".format(name, img), shell = True)
+
+def remove_all_containers(T, ip):
+    os.system('tput setaf 3')
+    if T == 'local':
+        sb.call("docker rm `docker ps -a -q`", shell=True)
+    else:
+        sb.call('ssh {} "sudo docker rm `docker ps -a -q`"'.format(ip), shell = True)
+
+def remove_one_container(T, ip, id):
+    os.system('tput setaf 3')
+    if T == 'local':
+        os.system("docker rm id {}".format(id))
+        print("Successfully Removed {}".format(id))
+    else:
+        os.system("ssh {} docker rm id {}".format(ip, id))
+        os.system("ssh {} echo 'Successfully Removed!'".format(ip))    
+
+def docker_info(T, ip):
+    os.system('tput setaf 3')
+    if T == 'local':
+        sb.call("docker info", shell = True)
+    else:
+        os.system("ssh {} docker info".format(ip))        
 
 
-def docker():
-    chh = 0
-    while chh != 12:
+
+def docker(T, ip):
+    ch = 0
+    while ch != 12:
+        os.system('tput setaf 4')
         print("""
-                                 Press 1 : To start docker
-                                 Press 2 : To stop docker
-                                 Press 3 : To check docker info
-                                 Press 4 : To check docker help
-                                 Press 5 : To download image 
-                                 Press 6 : To check list of all images
-                                 Press 7 : To run docker os  
-                                 Press 8 : To run docker os in background
-                                 Press 9 : To run docker os for single command
-                                 Press 10 : To check current running os
-                                 Press 11 : To check all running os 
-                                 Press 12 : To go back
-                                 """)
-        ch = int(input("Enter what  u want to do : "))
+                -----------------------------------------------------
+                    Welcome to Docker!:
+                -----------------------------------------------------
+                    1. Install Docker-ce
+                    2. Check Status of Docker
+                    3. Docker Information     
+                    4. Show Docker Images
+                    5. Pull a Docker Image 
+                    6. Show all Containers
+                    7. Run Docker Container
+                    8. Run Detached Container
+                    9. Remove One Container
+                   10. Remove all Containers
+                   11. Main Menu
+                -----------------------------------------------------
+            """)
+        os.system("tput setaf 2")
+        ch  = ""
+        while ch == "":
+            ch = input("Enter choice : ")
+        
+        ch = int(ch)
+
 
         if ch == 1:
-            os.system("systemctl start docker")
-            input()
+            docker_install(T)
 
         elif ch == 2:
-            os.system("systemctl stop docker")
-            input()
+            status(T, ip)
 
         elif ch == 3:
-            os.system("docker info")
-            input()
+            docker_info(T, ip)
 
         elif ch == 4:
-            os.system("docker --help")
-            input()
+            show_docker_images(T, ip)
+
         elif ch == 5:
-            print("""
-                        image example 
-                        1. Centos 
-                        2. Fedora
-                        3. Ubuntu
-                        ...etc..
-                             """)
-            image = input("Enter the name of image ")
-            os.system("docker pull {}".format(image))
+            img_name = input('Enter image name: ')
+            pull_docker_images(T, ip,  img_name)
 
         elif ch == 6:
-            os.system("docker images")
-            input()
+            display_all_containers(T, ip)
+
         elif ch == 7:
-            name = input("Enter the name of os")
-            img = input("Enter the name of img")
-            os.system("docker run -it --name {} {}".format(name, img))
+            os_name = input('Enter Image name: ')
+            version = input('Enter os version :')
+            title = input('Enter OS  name : ')
+            run_docker_container(T, ip, os_name,version,title)
+
         elif ch == 8:
-            name = input("Enter the name of os")
-            img = input("Enter the name of image")
-            os.system("docker run -dit --name {} {}".format(name, img))
+            os_name = input('Enter Image name: ')
+            version = input('Enter os version :')
+            title = input('Enter OS  name : ')
+            run_docker_container(T, ip, os_name,version,title)
+
         elif ch == 9:
-            name = input("Enter the name of os")
-            img = input("Enter the name of image")
-            cmd = input("Enter the command u want to run ")
-            os.system("docker run -it --name {} {} {}".format(name, img, cmd))
-            input()
+            id = input("Enter the  os name/ID: ")
+            remove_one_container(T, ip, id)
         elif ch == 10:
-            os.system("docker ps")
-            input()
+            remove_all_containers(T, ip)
         elif ch == 11:
-            os.system("docker ps -a")
-            input()
-        elif ch == 11:
-            exit()
+            os.system("clear")
+            break
         else:
-            print("Not supported ")
-
-
-def docker_remote(ip):
-    print("""
-                             Press 1 : To start docker
-                             Press 2 : To stop docker
-                             Press 3 : To check docker info
-                             Press 4 : To check docker help
-                             Press 5 : To download image 
-                             Press 6 : To check list of all images
-                             Press 7 : To run docker os  
-                             Press 8 : To run docker os in background
-                             Press 9 : To run docker os for single command
-                             Press 10 : To check current running os
-                             Press 11 : To check all running os 
-                             Press 12 : To exit 
-                             """)
-    ch = input("Enter what  u want to do : ")
-
-    if int(ch) == 1:
-        os.system("ssh {} systemctl start docker".format(ip))
-        input()
-
-    elif int(ch) == 2:
-        os.system("ssh {} systemctl stop docker".format(ip))
-        input()
-
-    elif int(ch) == 3:
-        os.system("ssh {} docker info".format(ip))
-        input()
-
-    elif int(ch) == 4:
-        os.system("ssh {} docker --help".format(ip))
-        input()
-    elif int(ch) == 5:
-        print("""
-                    image example 
-                    1. Centos 
-                    2. Fedora
-                    3. Ubuntu
-                    ...etc..
-                         """)
-        image = input("Enter the name of image ")
-        os.system("ssh {} docker pull {}".format(ip, image))
-
-    elif int(ch) == 6:
-        os.system("ssh {} docker images".format(ip))
-        input()
-    elif int(ch) == 7:
-        name = input("Enter the name of os")
-        img = input("Enter the name of os")
-        os.system("ssh {} docker run -it --name {} {}".format(ip, name, img))
-    elif int(ch) == 8:
-        name = input("Enter the name of os")
-        img = input("Enter the name of image")
-        os.system("ssh {} docker run -dit --name {} {}".format(ip, name, img))
-    elif int(ch) == 9:
-        name = input("Enter the name of os")
-        img = input("Enter the name of image")
-        cmd = input("Enter the command u want to run ")
-        os.system("ssh {} docker run -it --name {} {} {}".format(ip, name, img, cmd))
-        input()
-    elif int(ch) == 10:
-        os.system("ssh {} docker ps".format(ip))
-        input()
-    elif int(ch) == 11:
-        os.system("ssh {} docker ps -a".format(ip))
-        input()
-    elif int(ch) == 12:
-        exit()
-    else:
-        print("Not supported ")
+            os.system("tput setaf 1")
+            print("Invalid Input!")
 
 
