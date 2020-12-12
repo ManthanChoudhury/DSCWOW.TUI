@@ -57,5 +57,5 @@ def configure_datanode(ip):
 		print('Something went Wrong !')
 		print(out[1])
 
-ip = '13.233.58.169'
+ip = '13.233.123.8'
 configure_datanode(ip)
