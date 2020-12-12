@@ -76,7 +76,7 @@ def remove_all_containers(T, ip):
     if T == 'local':
         sb.call("docker rm `docker ps -a -q`", shell=True)
     else:
-        sb.call('ssh {} "sudo docker rm `docker ps -a -q`"'.format(ip), shell = True)
+        sb.call('ssh {} "docker rm `docker ps -a -q`"'.format(ip), shell = True)
 
 def remove_one_container(T, ip, id):
     os.system('tput setaf 3')

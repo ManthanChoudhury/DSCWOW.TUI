@@ -9,7 +9,10 @@ import apache_web
 os.system("tput setaf 6")
 os.system("clear")
 operating_sys = input("Where u want to run prog ? (local/Remote) : ")
-ip = input("Enter remote IP : ")
+if operating_sys == 'remote':
+    ip = input("Enter remote IP : ")
+else:
+    ip = 0
 print("{}:{}".format(operating_sys, ip))
 
 
@@ -33,7 +36,7 @@ while True:
     
     choice = int(choice)
 
-    if operating_sys == "remote":
+    if operating_sys == "remote" or operating_sys == "local":
         if choice == 1:
             os.system("clear")
             linux.linux()
@@ -48,7 +51,7 @@ while True:
 
         elif choice == 4:
             os.system("clear")
-            aws.aws(operating_sys, ip)
+            aws.aws()
 
         elif choice == 5:
             os.system("clear")
