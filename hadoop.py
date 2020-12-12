@@ -53,16 +53,16 @@ def configure_namenode_hadoop(Type):
 	sb.call("echo 'Configured core-site.xml file...'", shell=True)
 	sleep(1)
 	sb.call("echo 'Formatting Namenode...'", shell=True)
-	out = sb.getstatusoutput("echo 'Y' | hadoop namenode -format")
-	if out[0] == 0:
+	sb.call("echo 'Y' | hadoop namenode -format",shell = True)
+	# if out[0] == 0:
 		
-		sb.call("echo 'Namenode successfully fomatted !'", shell=True)
-	else:
-		os.system('tput setaf 1') 
-		print('Something went Wrong while formatting !')
-		print('Trying again..')
-		sb.getstatusoutput("echo 'Y' | hadoop namenode -format")
-		sb.call("echo 'Namenode successfully fomatted !'", shell=True)
+	# 	sb.call("echo 'Namenode successfully fomatted !'", shell=True)
+	# else:
+	# 	os.system('tput setaf 1') 
+	# 	print('Something went Wrong while formatting !')
+	# 	print('Trying again..')
+	# 	sb.getstatusoutput("echo 'Y' | hadoop namenode -format")
+	sb.call("echo 'Namenode successfully fomatted !'", shell=True)
 	sleep(1)
 	os.system('tput setaf 3')
 	sb.call("echo 'Starting Namenode...'", shell=True)

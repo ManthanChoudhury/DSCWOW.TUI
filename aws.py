@@ -23,22 +23,22 @@ def stop_instance():
 
 def create_volume():
     size = input("Size of volume in GB: ")
-    zone = input("Enter zone ex:-ap-south-1: ")
-    az = input("Enter AZ (a,b,c): ")
-    os.system("aws ec2 create-volume --volume-type gp2  --size {} --availability-zone {} {}".format(size, zone, az))
+    zone = input("Enter zone ex:-ap-south-1a/b/c: ")
+    
+    os.system("aws ec2 create-volume --volume-type gp2  --size {} --availability-zone {}".format(size, zone))
 
 
 def attach_volume():
     volId = input("Volume ID: ")
     instanceId = input("Instance ID: ")
     device = input("/dev/xvd[a-z]: ")
-    os.system("aws ec2 attach-volume --device /dev/xvd {} --volume-id {} --instance-id {}".format(device, volId, instanceId))
+    os.system("aws ec2 attach-volume --device {} --volume-id {} --instance-id {}".format(device, volId, instanceId))
 
 
 def iam():
     iamname = input("User-name: ")
-    permissionboundary = input("Permission boundary for User:")
-    os.system("aws iam create-user --user-name {} --permissions-boundary {}".format(iamname, permissionboundary))
+#    permissionboundary = input("Permission boundary for User:")
+    os.system("aws iam create-user --user-name {} ".format(iamname))
 
 
 def snapshot():
@@ -62,20 +62,20 @@ def aws():
         os.system('tput setaf 4')
         print("""
                 -----------------------------------------------------
-                    Welcome to Docker!:
+                    Welcome to AWS Cloud!:
                 -----------------------------------------------------
                     1. Configure AWS CLI
-                    1. Launch EC2 Instance
-                    2. Start Instance
-                    3. Stop Instance    
-                    4. Create EBS Volume
-                    5. Attach EBS Volume 
-                    6. Create IAM User
-                    7. Create S3 Bucket
-                    8. Create Snapshot of Instance
-                    9. Configure Cloud Front
-                   10. Cloud Watch
-                   11. Main Menu
+                    2. Launch EC2 Instance
+                    3. Start Instance
+                    4. Stop Instance    
+                    5. Create EBS Volume
+                    6. Attach EBS Volume 
+                    7. Create IAM User
+                    8. Create S3 Bucket
+                    9. Create Snapshot of Instance
+                   10. Configure Cloud Front
+                   11. Cloud Watch
+                   12. Main Menu
                 -----------------------------------------------------
             """)
         os.system("tput setaf 2")

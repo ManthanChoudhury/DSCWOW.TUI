@@ -2,69 +2,58 @@ import time
 import os
 
 
-def linux():
+def linux(T, ip):
     ch = 0
-    while ch != 5:
+    while ch != 4:
+        os.system('tput setaf 10')
         print("""
-                     Press 1 : To run date
-                     Press 2 : To run calendar
-                     Press 3 : To check free ram
-                     Press 4 : To check ip address
-                     Press 5 : To go back
-                     """)
-        ch = int(input("Enter what  u want to do : "))
+            -----------------------------------------------------
+                Linux:
+            -----------------------------------------------------   
+                1. date
+                2. calender
+                3. Show IP
+                4. Main Menu
+            -----------------------------------------------------
+            """)
+        os.system("tput setaf 2")
+        ch  = ""
+        while ch == "":
+            ch = input("Enter choice : ")
+        ch = int(ch)
+            
+        os.system('tput setaf 7')
 
         if ch == 1:
-            os.system("date")
+            os.system("tput setaf 3")
+            if T == 'local':
+                    os.system("date")
+            else:
+                    os.system("ssh  {} date".format(ip))
             input()
         elif ch == 2:
-            os.system("cal")
+            os.system("tput setaf 3")
+            if T == 'local':
+                os.system("cal")
+            else:
+                os.system("ssh {} cal".format(ip))
             input()
 
         elif ch == 3:
-            os.system("free -m")
+            os.system("tput setaf 3")
+            if  T == 'local':
+                os.system("ifconfig")
+            else:
+                os.system("ssh {} ifconfig enp0s3".format(ip))
             input()
 
         elif ch == 4:
-            os.system("ifconfig enp0s3")
-            input()
-
-        elif ch == 5:
-            exit()
+            os.system("clear")
+            break
 
         else:
-            print("Not Supported")
-            input()
+            os.system("tput setaf 1")
+            print("Invalid Input!")
+            
 
 
-def linux_remote(ip):
-    print("""
-                     Press 1 : To run date
-                     Press 2 : To run calendar
-                     Press 3 : To check free ram
-                     Press 4 : To check ip address
-                     Press 5 : To exit from Prog
-                     """)
-    ch = int(input("Enter what  u want to do : "))
-
-    if ch == 1:
-        os.system("ssh  {} date".format(ip))
-        input()
-    elif ch == 2:
-        os.system("ssh {} cal".format(ip))
-        input()
-
-    elif ch == 3:
-        os.system("ssh {} free -m".format(ip))
-        input()
-
-    elif ch == 4:
-        os.system("ssh {} ifconfig enp0s3".format(ip))
-        input()
-
-    elif ch == 5:
-        input()
-
-    else:
-        print("Not Supported")
-        input()

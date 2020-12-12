@@ -39,7 +39,7 @@ while True:
     if operating_sys == "remote" or operating_sys == "local":
         if choice == 1:
             os.system("clear")
-            linux.linux()
+            linux.linux(operating_sys, ip)
 
         elif choice == 2:
             os.system("clear")
