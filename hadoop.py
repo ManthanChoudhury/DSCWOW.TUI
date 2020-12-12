@@ -105,7 +105,8 @@ def hadoop():
 				1. Configure Hadoop Namenode
 				2. Configure Hadoop Datanode
 				3. Configure the Whole Cluster
-				4. Main Menu
+				4. Show Report
+				5. Main Menu
 			-----------------------------------------------------
 			""")
 		os.system("tput setaf 2")
@@ -124,6 +125,8 @@ def hadoop():
 			ips = list(input('Enter IPs of Datanodes separated by space : ').split(" "))
 			configure_cluster(ips)
 		elif ch == 4:
+			os.system("hadoop dfsadmin -report")
+		elif ch == 5:
 			os.system("clear")
 			break
 		else:
