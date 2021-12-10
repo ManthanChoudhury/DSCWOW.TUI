@@ -1,5 +1,5 @@
 import os
-import linux_basic
+import linux_basic as linux
 import docker
 import aws
 import hadoop
